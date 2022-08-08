@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       AWS_DEFAULT_REGION: eu-west-2
-      TAG: ${{github}}
+      TAG: ${{github.ref}}
     steps:
     - name: Dev Environment
       uses: aws-actions/configure-aws-credentials@v1
@@ -20,6 +20,6 @@ jobs:
         role-to-assume: arn:aws:iam::533884745449:role/github-actions-session-role
         role-session-name: github-actions-session-role
         aws-region: ${{env.AWS_DEFAULT_REGION}}
-    - name: ${{github.ref}}
+    - name: ${{env.TAG}}
       run: |
         echo ${{ env.AWS_DEFAULT_REGION }}
