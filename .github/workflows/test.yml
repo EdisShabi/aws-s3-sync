@@ -8,7 +8,46 @@ permissions:
   contents: read
 
 jobs:
-  Deploy2Development:
+  C4_Build:
+    runs-on: 
+      ubuntu-latest
+    steps:
+      - name: build_c4
+        uses: actions/checkout@v3
+        with:
+          repository: exasol/ccc
+          ref: master
+          token: ${{secrets.CCC_GITHUB_TOKEN}}
+          path: ccc
+      - uses: actions/download-artifact@v2
+        with:
+          name: saas-docs-screenshots
+      - name: Download releaser
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          wget https://github.com/Nightapes/go-semantic-release/releases/download/v2.1.0/go-semantic-release.linux_x86_64.zip
+          unzip go-semantic-release.linux_x86_64.zip
+          rm go-semantic-release.linux_x86_64.zip
+          mv go-semantic-release.linux_x86_64 go-semantic-release
+          chmod +x ./go-semantic-release
+      - name: Build and release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CCC_CONFIG: ./config/config
+          CCC_SERVER_GETROLE_URL: ${{ secrets.CCC_SERVER_GETROLE_URL }}
+          CCC_SERVER_SECRET_ACCESS_KEY: ${{ secrets.CCC_SERVER_SECRET_ACCESS_KEY }}
+          CCC_SERVER_ACCESS_KEY: ${{ secrets.CCC_SERVER_ACCESS_KEY }}
+          INTERNAL_E2E_TESTS_SERVER_PRIVATE_SSH_KEY: ${{ secrets.INTERNAL_E2E_TESTS_SERVER_PRIVATE_SSH_KEY }}
+        run: |
+          ./go-semantic-release next
+          npm run version
+          npm run nx build saas
+          npm run nx build maintenance
+          npm run nx build aws-marketplace
+          ./go-semantic-release release -l info
+          
+  Build:
     runs-on: ubuntu-latest
     env:
       TAG: ${GITHUB_REF#refs/heads/}
