@@ -16,7 +16,7 @@ jobs:
           repository: exasol/ccc
           ref: master
           token: ${{secrets.CCC_GITHUB_TOKEN}}
-          path: c4
+          path: ~/c4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/checkout@v3
