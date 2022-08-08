@@ -25,8 +25,4 @@ jobs:
           check-latest: true
       - name: c4 build
         run: |
-          sudo apt install build-essential -y
-          sudo apt-get install manpages-dev -y
-          sudo apt install gcc -y
-          sudo apt-get update -y && DEBIAN_FRONTEND=noninteractive sudo apt-get install -y sudo lsb-release jq awscli curl
-          pwd
+          ls -lrt ${{github.workspace}}/c4/
