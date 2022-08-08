@@ -13,12 +13,14 @@ jobs:
     env:
       AWS_DEFAULT_REGION: eu-west-2
     steps:
-      - name: Dev Environment
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          role-to-assume: arn:aws:iam::533884745449:role/github-actions-role
-          role-session-name: github-actions-session
-          aws-region: ${{env.AWS_DEFAULT_REGION}}
-      - name: Create bucket
-        run: |
-          aws s3 mb s3://${{env.AWS_DEFAULT_REGION}}-{{ github.repository.name }}-{{ github.sha }}
+    - name: Dev Environment
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        role-to-assume: arn:aws:iam::533884745449:role/github-actions-role
+        role-session-name: github-actions-session
+        aws-region: ${{env.AWS_DEFAULT_REGION}}
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Create bucket
+      run: |
+        aws s3 mb s3://${{env.AWS_DEFAULT_REGION}}-{{ github.repository.name }}-{{ github.sha }}
