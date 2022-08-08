@@ -10,49 +10,20 @@ jobs:
     runs-on: 
       ubuntu-latest
     steps:
-      - name: build_c4
+      - name: C4 Clone
         uses: actions/checkout@v3
         with:
           repository: exasol/ccc
           ref: master
           token: ${{secrets.CCC_GITHUB_TOKEN}}
-          path: ccc
-      - name: Download releaser
+          path: c4
+      - name: C4 Build
+        working-directory: c4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v3
+        with:
+          go-version-file: 1.18.1
         run: |
-          wget https://github.com/Nightapes/go-semantic-release/releases/download/v2.1.0/go-semantic-release.linux_x86_64.zip
-          unzip go-semantic-release.linux_x86_64.zip
-          rm go-semantic-release.linux_x86_64.zip
-          mv go-semantic-release.linux_x86_64 go-semantic-release
-          chmod +x ./go-semantic-release
-      - name: Build and release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CCC_CONFIG: ./config/config
-          CCC_SERVER_SECRET_ACCESS_KEY: ${{ secrets.CCC_AWS_SECRET_ACCESS_KEY}}
-          CCC_SERVER_ACCESS_KEY: ${{ secrets.CCC_AWS_ACCESS_KEY }}
-          #INTERNAL_E2E_TESTS_SERVER_PRIVATE_SSH_KEY: ${{ secrets.INTERNAL_E2E_TESTS_SERVER_PRIVATE_SSH_KEY }}
-        run: |
-          ./go-semantic-release next
-          npm run version
-          npm run nx build saas
-          npm run nx build maintenance
-          npm run nx build aws-marketplace
-          ./go-semantic-release release -l info
-          
-  Build:
-    runs-on: ubuntu-latest
-    env:
-      TAG: ${GITHUB_REF#refs/heads/}
-      AWS_DEFAULT_REGION: 'us-east-1'
-    steps:
-    - name: Dev Environment
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        role-to-assume: arn:aws:iam::533884745449:role/github-actions-session-role
-        role-session-name: github-actions-session-role
-        aws-region: ${{env.AWS_DEFAULT_REGION}}
-    - name: ${{env.TAG}}
-      run: |
-        echo "Welcome to the Dev environment"
+          config/ccc make
