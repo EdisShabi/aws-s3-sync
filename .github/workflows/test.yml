@@ -23,9 +23,9 @@ jobs:
           path: c4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: setup go
-        uses: actions/setup-go@v3
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v3
         with:
-          go-version-file: 1.18.1
-        run: |
-          config/ccc make
+          go-version: '1.14'
+          check-latest: true
+      - run: go run hello.go
