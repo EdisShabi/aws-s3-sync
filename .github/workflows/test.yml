@@ -25,4 +25,5 @@ jobs:
           check-latest: true
       - name: c4 build
         run: |
+          apt-get update -y && DEBIAN_FRONTEND=noninteractive apt-get install -y sudo lsb-release jq awscli curl
           ${{github.workspace}}/c4/config/ccc make
