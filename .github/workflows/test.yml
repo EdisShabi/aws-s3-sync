@@ -17,7 +17,6 @@ jobs:
           ref: master
           token: ${{secrets.CCC_GITHUB_TOKEN}}
           path: c4
-      - name: c4 build
         working-directory: c4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
