@@ -25,4 +25,4 @@ jobs:
           check-latest: true
       - name: c4 build
         run: |
-          ${{github.workspace}}c4/config/ccc make
+          ${{github.workspace}}/c4/config/ccc make
