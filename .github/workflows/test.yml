@@ -19,9 +19,6 @@ jobs:
           ref: master
           token: ${{secrets.CCC_GITHUB_TOKEN}}
           path: ccc
-      - uses: actions/download-artifact@v2
-        with:
-          name: saas-docs-screenshots
       - name: Download releaser
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -35,10 +32,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CCC_CONFIG: ./config/config
-          CCC_SERVER_GETROLE_URL: ${{ secrets.CCC_SERVER_GETROLE_URL }}
-          CCC_SERVER_SECRET_ACCESS_KEY: ${{ secrets.CCC_SERVER_SECRET_ACCESS_KEY }}
-          CCC_SERVER_ACCESS_KEY: ${{ secrets.CCC_SERVER_ACCESS_KEY }}
-          INTERNAL_E2E_TESTS_SERVER_PRIVATE_SSH_KEY: ${{ secrets.INTERNAL_E2E_TESTS_SERVER_PRIVATE_SSH_KEY }}
+          CCC_SERVER_SECRET_ACCESS_KEY: ${{ secrets.CCC_AWS_SECRET_ACCESS_KEY}}
+          CCC_SERVER_ACCESS_KEY: ${{ secrets.CCC_AWS_ACCESS_KEY }}
+          #INTERNAL_E2E_TESTS_SERVER_PRIVATE_SSH_KEY: ${{ secrets.INTERNAL_E2E_TESTS_SERVER_PRIVATE_SSH_KEY }}
         run: |
           ./go-semantic-release next
           npm run version
