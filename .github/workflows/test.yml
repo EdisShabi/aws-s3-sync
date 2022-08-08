@@ -10,14 +10,14 @@ jobs:
     runs-on: 
       ubuntu-latest
     steps:
-      - name: C4 Clone
+      - name: C4_Clone
         uses: actions/checkout@v3
         with:
           repository: exasol/ccc
           ref: master
           token: ${{secrets.CCC_GITHUB_TOKEN}}
           path: c4
-      - name: C4 Build
+      - name: C4_Build
         working-directory: c4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
