@@ -13,9 +13,7 @@ jobs:
     env:
       AWS_DEFAULT_REGION: eu-west-2
     steps:
-      - name: Dev Environment Deplyoment
-      - uses: actions/checkout@master
-      - name: Fetch AWS Credentials
+      - name: Dev Environment
         uses: aws-actions/configure-aws-credentials@v1
         with:
           role-to-assume: arn:aws:iam::533884745449:role/github-actions-role
