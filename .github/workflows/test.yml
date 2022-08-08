@@ -16,8 +16,8 @@ jobs:
     - name: Dev Environment
       uses: aws-actions/configure-aws-credentials@v1
       with:
-        role-to-assume: arn:aws:iam::533884745449:role/github-actions-role
-        role-session-name: github-actions-role
+        role-to-assume: arn:aws:iam::533884745449:role/github-actions-session-role
+        role-session-name: github-actions-session-role
         aws-region: ${{env.AWS_DEFAULT_REGION}}
     - name: Checkout
       uses: actions/checkout@v2
