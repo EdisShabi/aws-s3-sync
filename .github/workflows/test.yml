@@ -14,6 +14,7 @@ jobs:
       AWS_DEFAULT_REGION: eu-west-2
     steps:
     - name: Dev Environment Deplyoment
+    - uses: actions/checkout@master
     - name: Fetch AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
