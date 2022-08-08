@@ -5,10 +5,6 @@ permissions:
   id-token: write
   contents: read
 
-defaults:
-  run: 
-    working-directory: c4
-
 jobs:
   C4_Build:
     runs-on: 
