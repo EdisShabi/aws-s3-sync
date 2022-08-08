@@ -8,7 +8,7 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  S3PackageUpload:
     runs-on: ubuntu-latest
     env:
       AWS_DEFAULT_REGION: eu-west-2
@@ -19,8 +19,6 @@ jobs:
         role-to-assume: arn:aws:iam::533884745449:role/github-actions-session-role
         role-session-name: github-actions-session-role
         aws-region: ${{env.AWS_DEFAULT_REGION}}
-    - name: Checkout
-      uses: actions/checkout@v2
     - name: Create bucket
       run: |
         aws s3 mb s3://${{env.AWS_DEFAULT_REGION}}-{{ github.repository.name }}-{{ github.sha }}
