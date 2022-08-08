@@ -5,6 +5,10 @@ permissions:
   id-token: write
   contents: read
 
+defaults:
+  run: 
+    working-directory: c4
+
 jobs:
   C4_Build:
     runs-on: 
@@ -17,7 +21,6 @@ jobs:
           ref: master
           token: ${{secrets.CCC_GITHUB_TOKEN}}
           path: c4
-        working-directory: c4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       #- name: setup go
