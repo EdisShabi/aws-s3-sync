@@ -10,19 +10,18 @@ jobs:
     runs-on: 
       ubuntu-latest
     steps:
-      - name: C4_Clone
+      - name: c4 clone
         uses: actions/checkout@v3
         with:
           repository: exasol/ccc
           ref: master
           token: ${{secrets.CCC_GITHUB_TOKEN}}
           path: c4
-      - name: C4_Build
+      - name: c4 build
         working-directory: c4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/checkout@v3
-      - name: Setup_go
+      - name: setup go
       - uses: actions/setup-go@v3
         with:
           go-version-file: 1.18.1
