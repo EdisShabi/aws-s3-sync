@@ -27,4 +27,4 @@ jobs:
         run: |
           cd ${{github.workspace}}/c4/
           config/ccc make
-          c4 fetch @ui-1.174.0
+          bin/c4 fetch @ui-1.174.0
