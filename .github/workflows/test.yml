@@ -1,7 +1,8 @@
 name: Deploy to Environment
 on:
- push
-
+ push:
+  tags:
+    - '*'
 permissions:
   id-token: write
   contents: read
