@@ -8,10 +8,11 @@ permissions:
   contents: read
 
 jobs:
-  S3PackageUpload:
+  Deploy to Development:
     runs-on: ubuntu-latest
     env:
       AWS_DEFAULT_REGION: eu-west-2
+      TAG: ${{github}}
     steps:
     - name: Dev Environment
       uses: aws-actions/configure-aws-credentials@v1
