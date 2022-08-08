@@ -8,11 +8,10 @@ permissions:
   contents: read
 
 jobs:
-  DeploytoDevelopment:
+  Deploy2Development:
     runs-on: ubuntu-latest
     env:
-      AWS_DEFAULT_REGION: eu-west-2
-      TAG: ${{github.ref}}
+      TAG: ${GITHUB_REF/refs/tags/}
     steps:
     - name: Dev Environment
       uses: aws-actions/configure-aws-credentials@v1
@@ -22,4 +21,4 @@ jobs:
         aws-region: ${{env.AWS_DEFAULT_REGION}}
     - name: ${{env.TAG}}
       run: |
-        echo ${{ env.AWS_DEFAULT_REGION }}
+        echo "Welcome to the Dev environment"
