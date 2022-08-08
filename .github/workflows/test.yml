@@ -22,7 +22,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/checkout@v3
-      - name: Setup go
+      - name: Setup_go
       - uses: actions/setup-go@v3
         with:
           go-version-file: 1.18.1
