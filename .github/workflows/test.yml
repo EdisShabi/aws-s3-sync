@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TAG: ${GITHUB_REF/refs/tags/}
+      AWS_DEFAULT_REGION: 'us-east-1'
     steps:
     - name: Dev Environment
       uses: aws-actions/configure-aws-credentials@v1
