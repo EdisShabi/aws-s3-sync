@@ -20,4 +20,4 @@ jobs:
         aws-region: ${{env.AWS_DEFAULT_REGION}}
     - name: Create bucket
       run: |
-        aws s3 mb oooflakron-odjali-ri --region ${{env.AWS_DEFAULT_REGION}}
+        aws s3 mb s3://oooflakron-odjali-ri --region ${{env.AWS_DEFAULT_REGION}}
