@@ -27,4 +27,3 @@ jobs:
       - name: c4 build
         run: |
           config/ccc make
-        working-directory: /c4
