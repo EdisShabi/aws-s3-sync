@@ -1,0 +1,31 @@
+name: Deploy to Environment
+on:
+ push:
+  tags:
+    - '*'
+
+permissions:
+      id-token: write
+      contents: read
+
+jobs:
+ pull_request:
+   runs-on: ubuntu-latest
+
+   env:
+     AWS_DEFAULT_REGION: eu-west-2
+
+   steps:
+   - name: configureawscredentials
+     uses: aws-actions/configure-aws-credentials@v1
+     with:
+       role-to-assume:  arn:aws:iam::533884745449:role/github-actions-session-role
+       role-session-name: github-actions-session-role
+       aws-region: ${{env.AWS_DEFAULT_REGION}}
+
+   - name: Checkout
+     uses: actions/checkout@v2
+
+   - name: Create a bucket
+     run: |
+      aws s3 mb s3://s3-sync-bucket-action-test --region ${{env.AWS_DEFAULT_REGION}}
