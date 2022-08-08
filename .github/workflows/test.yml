@@ -11,7 +11,7 @@ jobs:
   Deploy2Development:
     runs-on: ubuntu-latest
     env:
-      TAG: ${{github.ref.heads.tags}/}
+      TAG: ${github.ref.heads.tags}
       AWS_DEFAULT_REGION: 'us-east-1'
     steps:
     - name: Dev Environment
