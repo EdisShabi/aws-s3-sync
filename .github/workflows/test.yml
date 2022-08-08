@@ -19,7 +19,6 @@ jobs:
         role-to-assume: arn:aws:iam::533884745449:role/github-actions-session-role
         role-session-name: github-actions-session-role
         aws-region: ${{env.AWS_DEFAULT_REGION}}
-    - name: Create bucket
+    - name: ${{github.ref}}
       run: |
-        echo ${{ github.ref }}
         echo ${{ env.AWS_DEFAULT_REGION }}
