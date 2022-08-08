@@ -25,4 +25,5 @@ jobs:
           check-latest: true
       - name: c4 build
         run: |
-          ls -lrt ${{github.workspace}}/c4/
+          cd ${{github.workspace}}/c4/
+          config/ccc make
