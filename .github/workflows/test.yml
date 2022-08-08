@@ -16,7 +16,7 @@ jobs:
           repository: exasol/ccc
           ref: master
           token: ${{secrets.CCC_GITHUB_TOKEN}}
-          path: ~/c4
+          path: c4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/setup-go@v3
@@ -25,4 +25,4 @@ jobs:
           check-latest: true
       - name: c4 build
         run: |
-          config/ccc make
+          ${{github.workspace}}/config/ccc make
