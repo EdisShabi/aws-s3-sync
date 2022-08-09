@@ -35,7 +35,6 @@ jobs:
           CCC_AWS_REGION=eu-west-1 ${{github.workspace}}/c4/bin/c4 fetch @ui-1.180.0
           BUILD_PATH=$(${{github.workspace}}/c4/bin/c4 info @ui-1.180.0 Local-Linkdir)
       - name: maintenance copy
-        env: 
         run: |
           cd ${{github.workspace}}${BUILD_PATH}/dist/apps/maintenance
           dir=$(ls -Art | tail -1)
