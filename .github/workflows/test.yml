@@ -30,4 +30,13 @@ jobs:
           export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY}}
           export AWS_SESSION_TOKEN=${{ secrets.AWS_SESSION_TOKEN }}
           config/ccc make
+      - name: ui fecth
+        run: |
+          cd ${{github.workspace}}/c4/
           CCC_AWS_REGION=eu-west-1 bin/c4 fetch @ui-1.174.0
+      - name: maintenance copy
+        run: |
+          cd ${{github.workspace}}/.ccc/x/u/branchr/
+          dir=$(ls -Art | tail -1)
+          cd $dir/dist/apps/maintenance
+          ls -lrt
