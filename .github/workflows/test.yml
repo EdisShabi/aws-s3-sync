@@ -55,6 +55,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   sync:
     name: Sync to Environment
+    needs: [c4build]
     runs-on: ubuntu-latest
     steps:
       - name: check files
