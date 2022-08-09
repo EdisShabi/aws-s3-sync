@@ -14,7 +14,6 @@ permissions:
   contents: read
 
 jobs:
-  if: github.events.inputs.name == 'dev' || github.events.inputs.name == 'staging' || github.events.inputs.name == 'production'
   c4build:
     runs-on: 
       ubuntu-latest
@@ -54,7 +53,6 @@ jobs:
           path: ~/.ccc/x/u/branchr/
   
   dev:
-    if: github.events.inputs.name == 'dev'
     name: Push to Dev Environment 
     needs: [c4build]
     runs-on: ubuntu-latest
@@ -76,7 +74,6 @@ jobs:
           aws s3 sync saas/. s3://dev-saas-cd
 
   staging:
-    if: github.events.inputs.name == 'staging'
     name: Push to Staging Environment
     needs: [c4build]
     runs-on: ubuntu-latest
@@ -98,7 +95,6 @@ jobs:
           aws s3 sync saas/. s3://dev-saas-cd
 
   prod:
-    if: github.events.inputs.name == 'production'
     name: Push to Prod Environment
     needs: [c4build]
     runs-on: ubuntu-latest
