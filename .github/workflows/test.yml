@@ -14,6 +14,7 @@ permissions:
   contents: read
 
 jobs:
+  if: github.events.inputs.name == 'dev' || github.events.inputs.name == 'staging' || github.events.inputs.name == 'production'
   c4build:
     runs-on: 
       ubuntu-latest
