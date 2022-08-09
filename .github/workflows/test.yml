@@ -53,8 +53,8 @@ jobs:
           path: ~/.ccc/x/u/branchr/
   
   dev:
-    if: ${{ github.event_name == 'push' && github.ref_name == 'main' || github.event.inputs.environment == 'DEV' }}
-    name: Push to Dev Environment
+    if: github.events.inputs.name == 'dev'
+    name: Push to Dev Environment 
     needs: [c4build]
     runs-on: ubuntu-latest
     steps:
@@ -75,7 +75,7 @@ jobs:
           aws s3 sync saas/. s3://dev-saas-cd
 
   staging:
-    if: ${{ github.event_name == 'push' && github.ref_name == 'main' || github.event.inputs.environment == 'STAGING' }}
+    if: github.events.inputs.name == 'staging'
     name: Push to Staging Environment
     needs: [c4build]
     runs-on: ubuntu-latest
@@ -97,7 +97,7 @@ jobs:
           aws s3 sync saas/. s3://dev-saas-cd
 
   prod:
-    if: ${{ github.event_name == 'push' && github.ref_name == 'main' || github.event.inputs.environment == 'PROD' }}
+    if: github.events.inputs.name == 'production'
     name: Push to Prod Environment
     needs: [c4build]
     runs-on: ubuntu-latest
