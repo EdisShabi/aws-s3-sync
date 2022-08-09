@@ -2,7 +2,7 @@ name: Deploy to Environment
 on:
   workflow_dispatch:
     inputs:
-      environment:
+      tags:
         type: choice
         description: environment
         options: 
@@ -53,7 +53,7 @@ jobs:
           path: ~/.ccc/x/u/branchr/
   
   dev:
-    if: inputs.environment == 'dev'
+    if: inputs.tags == 'dev'
     name: Push to Dev Environment 
     needs: [c4build]
     runs-on: ubuntu-latest
@@ -75,7 +75,7 @@ jobs:
           aws s3 sync saas/. s3://dev-saas-cd
 
   staging:    
-    if: inputs.environment == 'staging'
+    if: inputs.tags == 'staging'
     name: Push to Staging Environment
     needs: [c4build]
     runs-on: ubuntu-latest
@@ -97,7 +97,7 @@ jobs:
           aws s3 sync saas/. s3://dev-saas-cd
 
   prod:
-    if: inputs.environment == 'production'
+    if: inputs.tags == 'production'
     name: Push to Prod Environment
     needs: [c4build]
     runs-on: ubuntu-latest
