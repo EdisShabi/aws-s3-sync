@@ -33,12 +33,9 @@ jobs:
           export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY}}
           export AWS_SESSION_TOKEN=${{ secrets.AWS_SESSION_TOKEN }}
           CCC_AWS_REGION=eu-west-1 ${{github.workspace}}/c4/bin/c4 fetch @ui-1.180.0
-          ${{github.workspace}}/c4/bin/c4 info @ui-1.180.0 Local-Linkdir
-      #- name: maintenance copy
-        #env: 
-        #run: |
-#
-          #cd ${{github.workspace}}/.ccc/x/u/branchr/
-          #dir=$(ls -Art | tail -1)
-          #cd $dir/dist/apps/maintenance
-          #ls -lrt
+          BUILD_PATH=$(${{github.workspace}}/c4/bin/c4 info @ui-1.180.0 Local-Linkdir)
+      - name: maintenance copy
+        env: 
+        run: |
+          cd ${{github.workspace}}${BUILD_PATH}/dist/apps/maintenance
+          dir=$(ls -Art | tail -1)
