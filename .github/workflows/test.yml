@@ -1,6 +1,14 @@
 name: Deploy to Environment
 on:
- push
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: string
+        default: DEV
+        required: true
 permissions:
   id-token: write
   contents: read
@@ -44,8 +52,9 @@ jobs:
           name: ui
           path: ~/.ccc/x/u/branchr/
   
-  sync:
-    name: Sync to Dev Environment
+  dev:
+    if: ${{ github.event_name == 'push' && github.ref_name == 'master' || github.event.inputs.environment == 'DEV' }}
+    name: Push to Dev Environment
     needs: [c4build]
     runs-on: ubuntu-latest
     steps:
@@ -63,6 +72,51 @@ jobs:
           dir=$(echo */)
           cd $dir/dist/apps
           aws s3 sync maintenance/. s3://dev-saas-cd
+          aws s3 sync saas/. s3://dev-saas-cd
+
+  staging:
+    if: ${{ github.event_name == 'push' && github.ref_name == 'master' || github.event.inputs.environment == 'STAGING' }}
+    name: Push to Staging Environment
+    needs: [c4build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.ROLE_TOKEN }}
+          role-session-name: github-actions-session-role
+          aws-region: 'us-east-1'
+      - name: check files
+        uses: actions/download-artifact@v3
+        with:
+          name: ui
+      - shell: bash
+        run: |
+          dir=$(echo */)
+          cd $dir/dist/apps
+          aws s3 sync maintenance/. s3://dev-saas-cd
+          aws s3 sync saas/. s3://dev-saas-cd
+
+  prod:
+    if: ${{ github.event_name == 'push' && github.ref_name == 'master' || github.event.inputs.environment == 'PROD' }}
+    name: Push to Prod Environment
+    needs: [c4build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.ROLE_TOKEN }}
+          role-session-name: github-actions-session-role
+          aws-region: 'us-east-1'
+      - name: check files
+        uses: actions/download-artifact@v3
+        with:
+          name: ui
+      - shell: bash
+        run: |
+          dir=$(echo */)
+          cd $dir/dist/apps
+          aws s3 sync maintenance/. s3://dev-saas-cd
+          aws s3 sync saas/. s3://dev-saas-cd
 
 
           
