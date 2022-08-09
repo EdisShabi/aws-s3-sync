@@ -45,7 +45,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ui
-          path: ${{github.workspace}}/c4
+          path: ~/.ccc$BUILD_PATH/dist/apps/
   
   sync:
     name: Sync to Environment
