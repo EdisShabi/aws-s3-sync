@@ -10,7 +10,7 @@ jobs:
     runs-on: 
       ubuntu-latest
     outputs:
-      build_path: ${{steps.step1.outputs.build_path}}
+      build_path: ${{steps.build_path.outputs.path}}
     steps:
       - name: c4 clone
         uses: actions/checkout@v3
@@ -34,18 +34,21 @@ jobs:
         run: |
           cd ${{github.workspace}}/c4/
           config/ccc make
-      - shell: bash
-        run: |
-          export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
-          export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY}}
-          export AWS_SESSION_TOKEN=${{ secrets.AWS_SESSION_TOKEN }}
-          CCC_AWS_REGION=eu-west-1 ${{github.workspace}}/c4/bin/c4 fetch @ui-1.180.0
-          BUILD_PATH=$(${{github.workspace}}/c4/bin/c4 info @ui-1.180.0 Local-Linkdir)
+      - name: get build ui path
+        uses: mathiasvr/command-output@v1
+        id: build_path
+        with:
+          run: |
+            export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
+            export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY}}
+            export AWS_SESSION_TOKEN=${{ secrets.AWS_SESSION_TOKEN }}
+            CCC_AWS_REGION=eu-west-1 ${{github.workspace}}/c4/bin/c4 fetch @ui-1.180.0
+            echo "::set-output name=path::${{github.workspace}}/c4/bin/c4 info @ui-1.180.0 Local-Linkdir"
       - name: Upload the Fetch
         uses: actions/upload-artifact@v3
         with:
           name: ui
-          path: ~/.ccc$BUILD_PATH/dist/apps/
+          path: ~/.ccc${{steps.c4build.outputs.build_path}}/dist/apps/
   
   sync:
     name: Sync to Environment
@@ -58,5 +61,5 @@ jobs:
           name: ui
       - shell: bash
         run: |
-          ls -la ~/.ccc$BUILD_PATH/dist/apps/
+          ls -la ${{needs.c4build.outputs.build_path}}
     
