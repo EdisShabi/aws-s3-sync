@@ -47,7 +47,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ui
-          path: ~/.ccc/*
+          path: ~/.ccc/x/u/branchr/
   
   sync:
     name: Sync to Environment
@@ -60,5 +60,4 @@ jobs:
           name: ui
       - shell: bash
         run: |
-          ls -la ${{needs.c4build.outputs.build_path}}
-    
+          ls -lrt 
