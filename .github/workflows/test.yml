@@ -62,7 +62,7 @@ jobs:
         run: |
           dir=$(echo */)
           cd $dir/dist/apps
-          aws s3 sync maintenace s3://dev-saas-cd
+          aws s3 sync maintenance/. s3://dev-saas-cd
 
 
           
