@@ -49,7 +49,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ui
-          path: ~/.ccc${{c4build.outputs.build_path}}/dist/apps/
+          path: ~/.ccc${{steps.c4build.outputs.build_path.stdout}}/dist/apps/
   
   sync:
     name: Sync to Environment
