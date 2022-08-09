@@ -58,5 +58,5 @@ jobs:
           name: ui
       - shell: bash
         run: |
-          ls -la ${{github.workspace}}/c4
+          ls -la ~/.ccc$BUILD_PATH/dist/apps/
     
