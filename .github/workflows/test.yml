@@ -9,6 +9,10 @@ on:
         - dev
         - staging
         - production
+      tag_name:
+        type: string
+        description: tag name
+        required: true
 permissions:
   id-token: write
   contents: read
