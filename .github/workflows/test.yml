@@ -33,7 +33,7 @@ jobs:
           export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY}}
           export AWS_SESSION_TOKEN=${{ secrets.AWS_SESSION_TOKEN }}
           CCC_AWS_REGION=eu-west-1 ${{github.workspace}}/bin/c4 fetch @ui-1.180.0
-          echo ${{github.workspace}}/bin/c4 info @ui-1.180.0 Local-Linkdir
+          ${{github.workspace}}/bin/c4 info @ui-1.180.0 Local-Linkdir
       #- name: maintenance copy
         #env: 
         #run: |
