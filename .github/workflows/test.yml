@@ -9,8 +9,6 @@ on:
         - dev
         - staging
         - production
-      message:
-        required: true
 permissions:
   id-token: write
   contents: read
