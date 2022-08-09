@@ -4,17 +4,13 @@ on:
     inputs:
       name:
         type: choice
-        description: Who to greet
+        description: environment
         options: 
-        - monalisa
-        - cschleiden
+        - dev
+        - staging
+        - production
       message:
         required: true
-      use-emoji:
-        type: boolean
-        description: Include  emojis
-      environment:
-        type: environment
 permissions:
   id-token: write
   contents: read
