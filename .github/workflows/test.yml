@@ -56,7 +56,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: list-ui
-          path: ${{github.workspace}}/c4
+      - shell: bash
         run: |
           ls -la ${{github.workspace}}/c4
     
