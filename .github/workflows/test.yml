@@ -55,7 +55,7 @@ jobs:
   
   dev:
     if: inputs.tags == 'dev'
-    name: Deploying ${{ inputs.tags }} to DEV
+    name: Deploying to DEV
     needs: [c4build]
     runs-on: ubuntu-latest
     steps:
