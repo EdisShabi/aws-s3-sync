@@ -46,7 +46,7 @@ jobs:
             export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
             export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY}}
             export AWS_SESSION_TOKEN=${{ secrets.AWS_SESSION_TOKEN }}
-            CCC_AWS_REGION=eu-west-1 ${{github.workspace}}/c4/bin/c4 fetch ${{github.events.inputs.tags}}
+            CCC_AWS_REGION=eu-west-1 ${{github.workspace}}/c4/bin/c4 fetch echo "${{github.events.inputs.tags}}""
       - name: Upload the Fetch
         uses: actions/upload-artifact@v3
         with:
