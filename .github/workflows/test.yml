@@ -74,6 +74,7 @@ jobs:
           cd $dir/dist/apps
           aws s3 sync maintenance/. s3://maintenance-ui
           aws s3 sync saas/. s3://saas-ui-test.cloud-dev.exasol.com
+          aws cloudfront create-invalidation --distribution-id E3NOP5V10P2NPV --paths  "/openapi.json" "/login" "/index.html" "/accounts/*" "/accounts" 
 
   staging:    
     if: inputs.environment == 'staging'
