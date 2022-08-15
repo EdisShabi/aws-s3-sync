@@ -29,7 +29,6 @@ jobs:
         #run: |
           #cd ${{github.workspace}}/c4/
           #config/ccc make
-      - name: get build ui path
       -  uses: actions/checkout@v3
          id: tagname
          run: |
