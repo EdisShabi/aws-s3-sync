@@ -21,26 +21,28 @@ jobs:
           path: c4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #- uses: actions/setup-go@v3
-        #with:  
-          #go-version: '1.18.1'
-          #check-latest: true
-      #- name: c4 build
-        #run: |
-          #cd ${{github.workspace}}/c4/
-          #config/ccc make
-      -  uses: actions/checkout@v3
-         id: tagname
-         run: |
-           git tag | sort -V | tail -n 1
-      - run: echo tag version is ${{steps.tagname.outputs.stdout}}
-      #- name: Upload the Fetch
-        #uses: actions/upload-artifact@v3
-        #with:
-          #name: ui
-          #path: ~/.ccc/x/u/branchr/
-
-
-          
-
-
+      - uses: actions/checkout@v3
+        id: tagname
+        run: |
+          git tag | sort -V | tail -n 1
+      - uses: actions/setup-go@v3
+        with:  
+          go-version: '1.18.1'
+          check-latest: true
+      - name: c4 build
+        run: |
+          cd ${{github.workspace}}/c4/
+          config/ccc make
+      - name: get build ui path
+        uses: mathiasvr/command-output@v1
+        with:
+          run: |
+            export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
+            export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY}}
+            export AWS_SESSION_TOKEN=${{ secrets.AWS_SESSION_TOKEN }}
+            CCC_AWS_REGION=eu-west-1 ${{github.workspace}}/c4/bin/c4 fetch ${steps.tagname.outputs.output}
+      - name: Upload the Fetch
+        uses: actions/upload-artifact@v3
+        with:
+          name: ui
+          path: ~/.ccc/x/u/branchr/
