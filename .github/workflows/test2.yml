@@ -1,51 +1,15 @@
-name: Deploy to Environment
 on:
   push:
-    tags: 
-      - '*'
-permissions:
-  id-token: write
-  contents: read
-
+    tags:
+      - 'v*.*.*'
 jobs:
-  c4build:
-    runs-on: 
-      ubuntu-latest
+  test:
+    runs-on: ubuntu-latest
     steps:
-      - name: c4 clone
-        uses: actions/checkout@v3
-        with:
-          repository: exasol/ccc
-          ref: master
-          token: ${{secrets.CCC_GITHUB_TOKEN}}
-          path: c4
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/checkout@v2
-      - name: Set output
-        id: vars
-        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
-      - name: Check output
-        env:
-          RELEASE_VERSION: ${{ steps.vars.outputs.tag }
-      - uses: actions/setup-go@v3
-        with:  
-          go-version: '1.18.1'
-          check-latest: true
-      - name: c4 build
+      - name: Set env
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+      - name: Test
         run: |
-          cd ${{github.workspace}}/c4/
-          config/ccc make
-      - name: get build ui path
-        uses: mathiasvr/command-output@v1
-        with:
-          run: |
-            export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
-            export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY}}
-            export AWS_SESSION_TOKEN=${{ secrets.AWS_SESSION_TOKEN }}
-            CCC_AWS_REGION=eu-west-1 ${{github.workspace}}/c4/bin/c4 fetch $RELEASE_VERSION
-      - name: Upload the Fetch
-        uses: actions/upload-artifact@v3
-        with:
-          name: ui
-          path: ~/.ccc/x/u/branchr/
+          echo $RELEASE_VERSION
+          echo ${{ env.RELEASE_VERSION }}
